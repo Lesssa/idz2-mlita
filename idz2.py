@@ -1,23 +1,17 @@
+import sys
+
 print("Эта программа проверяет правильность скобочной записи с тремя видами скобок: '[]', '{}', '()',\n"
       "содержащей буквы латинского алфавита. Внутри фигурных скобок обязательно должны быть квадратные, \n"
       "но могут быть круглые, внутри квадратных должны быть круглые или бесскобочные выражения, \n"
       "внутри круглых только бесскобочные арифметические выражения. Также, если один из операндов является скобкой, \n"
       "то и второй должен быть скобкой (не может быть буквой). Могут быть “лишние” скобки, \n"
-      "но одна буква не может браться в скобки.\n"
+      "но одна буква не может браться в скобки. В конце строки поставьте 0.\n"
       "Пример правильной записи: {[(a-b)]*(a+b)}/[(a+b*c)]-(a-c)*(a+c)0\n"
       "Пример неправильной записи: {(a+b)*(a-b)}/[a+b/c]((c)-(b-c*d))0\n"
       "Введите: ")
 
 
-instr = input()
-i = 0
-ch = 'a'
 signs = "+-*/"
-
-
-class FWBError(Exception):
-    def __init__(self):
-        print('Попробуйте снова. Введите синтаксически верную запись! ')
 
 
 def read():
@@ -27,7 +21,14 @@ def read():
 
 
 def error():
-    raise FWBError()
+    print('Запись неверна:( ')
+    chk = input("Хотите ввести еще одну запись? Да - 'y', нет - 'n':\n")
+    if chk == 'n':
+        sys.exit()
+    elif chk == 'y':
+        print('Введите запись: ')
+        main()
+
 
 
 class MainClass:
@@ -35,9 +36,9 @@ class MainClass:
         self.brex()
         self.signbr()
         if ch == '0':
-            print('true')
+            print('Запись верна:)')
         else:
-            print('false')
+            print('Запись неверна:(')
 
     def brex(self):
         if ch == '{':
@@ -196,64 +197,20 @@ class MainClass:
             error()
 
 
-# def corexp(self):
-    #     if ch == '(' or ch == '[' or ch == '{':
-    #         self.brackets()
-    #         if ch == '(' or ch == '[' or ch == '{':
-    #             self.brackets()
-    #
-    # def brackets(self):
-    #     try:
-    #         if ch == '(':
-    #             if ch == '(':
-    #                 read()
-    #             else:
-    #                 error()
-    #             self.corexp()
-    #             if ch == ')':
-    #                 read()
-    #             else:
-    #                 error()
-    #         elif ch == '[':
-    #             if ch == '[':
-    #                 read()
-    #             else:
-    #                 error()
-    #             self.corexp()
-    #             if ch == ']':
-    #                 read()
-    #             else:
-    #                 error()
-    #         elif ch == '{':
-    #             if ch == '{':
-    #                 read()
-    #             else:
-    #                 error()
-    #             self.corexp()
-    #             if ch == '}':
-    #                 read()
-    #             else:
-    #                 error()
-    #         else:
-    #             error()
-    #     except FWBError:
-    #         return
-
-
 def main():
     global ch
     global instr
     global i
+    instr = input()
+    i = 0
     ch = instr[0]
     m = MainClass()
     m.formula()
     chk = input("Хотите ввести еще одну запись? Да - 'y', нет - 'n':\n")
     if chk == 'n':
-        return
+        sys.exit()
     elif chk == 'y':
-        print('Введите: ')
-        instr = input()
-        i = 0
+        print('Введите запись: ')
         main()
 
 
